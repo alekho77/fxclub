@@ -1,0 +1,16 @@
+set terminal windows enhanced
+set boxwidth 0.5 relative
+set style fill empty
+load pair.'.M6.approx.dat'
+set multiplot layout 2,1
+set xlabel "date"
+set ylabel pair
+set xrange [-1:21]
+plot pair.'.M6.candles.dat' using 1:3:5:4:6:xtic(2) with candlesticks whiskerbars, f1(x) with lines, pair.'.M6.fourier.dat' using 1:($2+f1($1)) smooth csplines
+set xlabel "Year"
+set ylabel 'Amplitude '.pair.' (dB)'
+# set ylabel 'Power '.pair.' (dB)'
+set xrange [0:1]
+plot pair.'.M6.fourier.dat' every ::1:::1 using 3:11:xtic(gprintf("%.2g",$4/2)) with lines lw 3
+unset multiplot
+pause mouse close

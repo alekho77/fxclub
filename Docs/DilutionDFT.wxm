@@ -1,0 +1,144 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 12.04.0 ] */
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(k,integer)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(n,integer)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(N,integer)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(f,integer)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(phi,real)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(d,real)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Сам сигнал
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+s[n]:=cos(2*%pi*(f+d)*n/N+phi);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Оконная функция
+Прямоугольное окно - w[n]:=1
+Окно Хемминга - w[n]:=0.53836-0.46164*cos(2*%pi*n/(N-1))
+Окно Блэкмана - w[n]:=0.42-0.5*cos(2*%pi*n/(N-1))+0.08*cos(4*%pi*n/(N-1))
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+w[n]:=0.53836-0.46164*cos(2*%pi*n/(N-1));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+betta: sum(w[n]/N,n,0,N-1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+c[k]:=1/(N*betta)*sum(s[n]*w[n]*exp(-%i*2*%pi*k*n/N),n,0,N-1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+A[k]:=2*cabs(c[k]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+block([N:20,f:2,phi:0,d:0.49],wxplot2d([discrete,makelist(k,k,0,N/2),makelist(ev(20*log(A[k])/log(10),sum),k,0,N/2)],[y,-20,1]));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Как видно из графика, максимальной является не 2-я гармоника, а третья.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+D(d,phi):=20*log(''(A[f]))/log(10);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Dl(d,phi):=20*log(''(A[f-1]))/log(10);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Dr(d,phi):=20*log(''(A[f+1]))/log(10);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+ПРОБЛЕМА: максимальная аплитуда может быть у соседней гармоники.
+Это зависит от номера гармоники и ее смещения
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+block([N:20,f:2],wxplot2d([D(x,0),Dl(x,0),Dr(x,0)],[x,-0.6,0.5],[y,-20,1]));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Также эта проблема наблюдается и в зависимости от фазы.
+На графике ниже видно, как амплитуда гармоники справа в зависимости от фазы, то больше, то меньше центральной.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+block([N:20,f:2],wxplot2d([D(0.49,x),Dl(0.49,x),Dr(0.49,x)],[x,-%pi,%pi]));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+block([N:20,f:2],wxplot3d([D(x,y),Dl(x,y),Dr(x,y), [x,-0.5,0.5], [y,-%pi,%pi]],[z,-20,1],[grid,20,20]));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+load("mnewton")$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Bl(f,phi):=subst(mnewton(ev(''(A[f])-''(A[f-1]),sum),d,-0.5)[1][1],d);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Br(f,phi):=subst(mnewton(ev(''(A[f])-''(A[f+1]),sum),d,0.5)[1][1],d);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+block([N:50],wxplot2d([
+[discrete,makelist(f,f,1,N/2-2),makelist(Br(f,0),f,1,N/2-2)],
+[discrete,makelist(f,f,1,N/2-2),makelist(Br(f,-%pi/6),f,1,N/2-2)],
+[discrete,makelist(f,f,1,N/2-2),makelist(Br(f,%pi/6),f,1,N/2-2)]
+]));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+block([N:50],wxplot2d([
+[discrete,makelist(f,f,2,N/2-1),makelist(Bl(f,0),f,2,N/2-1)],
+[discrete,makelist(f,f,2,N/2-1),makelist(Bl(f,-%pi/6),f,2,N/2-1)],
+[discrete,makelist(f,f,2,N/2-1),makelist(Bl(f,%pi/6),f,2,N/2-1)]
+]));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Из общих соображений следует, что для 1-й гармоники левая граница 0, а для (N/2-1) гармоники правая граница N/2 
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+block([N:50],wxplot2d([
+[discrete,makelist(f,f,1,N/2-2),makelist(Br(f,0)-Bl(f+1,0),f,1,N/2-2)]
+]));
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

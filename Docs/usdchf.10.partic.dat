@@ -1,0 +1,18 @@
+# Range of USDCHF from 03.01.2001 0:01:00 to 23.06.2011 18:56:00
+# Maximum probably profit and loss with minimum profit delta 10 pips
+# Maximum timeout is one month
+# AMP/AML   - average maximum profit and loss in pips per day
+# AWPP/AWLP - average waiting profit and loss period in minutes
+# PD/LD     - profit and loss density [0..1]
+# APSL      - average StopLoss on way to maximum profit in pips
+#                              BUY                          |                         SELL
+# WP(1) AMP(2) AWPP(3)  PD(4) APSL(5) AML(6) AWLP(7)  LD(8)   AMP(9) AWPP(10)  PD(11) APSL(12) AML(13) AWLP(14)  LD(15)
+      1    516    1688 0.9603      39  -2908     160 0.9988      519     1994  0.9746       40   -2899      135  0.9981
+      5    497    1689 0.9603      38  -1107     342 0.9970      500     1996  0.9746       40   -1099      300  0.9955
+     15    416    1711 0.9599      38   -628     581 0.9949      418     2019  0.9742       40    -620      519  0.9926
+     30    343    1764 0.9588      39   -446     816 0.9930      345     2075  0.9734       41    -440      725  0.9896
+     60    271    1883 0.9565      41   -321    1161 0.9902      273     2203  0.9717       42    -316     1022  0.9855
+    240    155    2577 0.9447      49   -169    2362 0.9796      158     2931  0.9634       51    -165     2065  0.9701
+    480    114    3344 0.9324      57   -123    3333 0.9702      118     3743  0.9548       58    -119     2975  0.9560
+   1440     68    5627 0.8955      73    -74    5880 0.9438       72     6150  0.9292       75     -70     5407  0.9162
+   7200     31   13621 0.7861      94    -35   13959 0.8670       34    14060  0.8539       90     -31    13555  0.8069

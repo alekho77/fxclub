@@ -1,0 +1,284 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 12.04.0 ] */
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(k,integer)$ assume(k >= 0)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(n,integer)$ assume(n >= 0)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(N,integer)$ assume(N > 0)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+N: 100$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+seed1: make_random_state (2147483647)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+set_random_state (seed1)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+phi: makelist(ev(%pi*(random(2.0)-1),numer),2*N)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Сам сигнал
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+s[K,n]:=sum(cos(2*%pi*(k-1)*n/N+phi[k]),k,1,K);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+M(S):=1/length(S)*sum(S[n],n,1,length(S));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+D(S):=1/length(S)*sum((S[n]-M(S))^2,n,1,length(S));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+sigma(S):=sqrt(D(S));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+S1: makelist(ev(s[N/10,n],numer,sum),n,0,N-1)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+M(S1); D(S1); sigma(S1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+S2: makelist(ev(s[N/2,n],numer,sum),n,0,N-1)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+M(S2); D(S2); sigma(S2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+S3: makelist(ev(s[2*N,n],numer,sum),n,0,N-1)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+M(S3); D(S3); sigma(S3);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[discrete,makelist(n,n,0,N-1),S1],[discrete,makelist(n,n,0,N-1),S2],[discrete,makelist(n,n,0,N-1),S3]]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Оконная функция
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+Прямоугольное окно
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+wr[n,L]:=1;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Окно Хемминга
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+wh[n,L]:=0.53836-0.46164*cos(2*%pi*n/(L-1));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Окно Блэкмана
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+wb[n,L]:=0.42-0.5*cos(2*%pi*n/(L-1))+0.08*cos(4*%pi*n/(L-1));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+betta(w,L):=1/L*sum(w[n,L],n,0,L-1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+c(k,S):=1/length(S)*sum(S[n+1]*exp(-%i*2*%pi*k*n/length(S)),n,0,length(S)-1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Точное вычисление нулевой гармоники: A(k,S):=block(if k>0 then 2*cabs(c(k,S)) else cabs(c(k,S)))
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+A(k,S):=2*cabs(ev(c(k,S),numer,sum));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Phi(k,S):=carg(ev(c(k,S),numer,sum));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+D(k,S):=block([d],d:A(k,S),if d>0 then 20*log(d)/log(10) else -inf);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([
+[discrete,makelist(k,k,0,N/2),makelist(D(k,S1),k,0,N/2)],
+[discrete,makelist(k,k,0,N/2),makelist(D(k,S2),k,0,N/2)],
+[discrete,makelist(k,k,0,N/2),makelist(D(k,S3),k,0,N/2)]
+],[y,-50,10]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([
+[discrete,makelist(k,k,0,N/2),makelist(phi[k+1],k,0,N/2)],
+[discrete,makelist(k,k,0,N/2),makelist(Phi(k,S1),k,0,N/2)],
+[discrete,makelist(k,k,0,N/2),makelist(Phi(k,S2),k,0,N/2)],
+[discrete,makelist(k,k,0,N/2),makelist(Phi(k,S3),k,0,N/2)]
+],[y,-%pi,%pi]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Как видно из графика выше, если сигнал имеет в своем составе очень высокие частоты (выше частоты дискретизации), то определить спектр невозможно.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+Для выбора определенной полосы сделаем ПФ
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+concol(a,b):=block(
+[i,j,c],
+c:makelist(0,length(a)+length(b)-1),
+for i:1 while i<=length(a) do
+  for j:1 while j<=length(b) do
+    c[i+j-1]: c[i+j-1]+a[i]*b[j],
+c);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+filter(x,h):=block(
+[i,j,k,g,w],
+w: floor(length(h)/2),
+g:makelist(0,length(x)),
+for i:1 while i<=length(x) do
+  for j:1 while j<=length(h) do  
+    if (k:i+w-j+1) >= 1 and (k:i+w-j+1) <=length(x) then    
+      g[i]: g[i]+x[k:i+w-j+1]*h[j],
+g);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Построим более умный фильтр методом частотной выборки.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+H: [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 1,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+length(H);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Theta(k,n):=block(
+if evenp(n) then
+  block(
+    if k < n/2 then -%pi*k*(n-1)/n
+    else -%pi*(k-n)*(n-1)/n
+  )
+else
+  block(
+    if k < (n+1)/2 then -%pi*k*(n-1)/n
+    else -%pi*(k-n)*(n-1)/n
+  )
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+makelist(Theta(k,length(H)),k,0,length(H)-1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Z: makelist(H[k+1]*exp(%i*Theta(k,length(H))),k,0,length(H)-1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+realpart(Z),numer;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+imagpart(Z),numer;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+C(k,S):=1/length(S)*sum(S[n+1]*exp(%i*2*%pi*k*n/length(S)),n,0,length(S)-1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+В исходной литературе, при ОДПФ еще делят на N.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ev(betta(wh,length(Z)),numer);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+h: makelist(realpart(ev(C(k,Z),numer))*ev(wb[k,length(Z)],numer)/ev(betta(wb,length(Z)),numer),k,0,length(Z)-1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+M(h),numer;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([discrete,makelist(i,i,0,length(h)-1),realpart(h)]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([discrete,makelist(k,k,0,length(h)-1),makelist(D(k,h*length(h)),k,0,length(h)-1)],[y,-100,0]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+hf: append(h*N,makelist(0,N-length(h)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([discrete,makelist(k,k,0,N-1),makelist(D(k,hf),k,0,N-1)],[y,-100,0]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([discrete,makelist(k,k,0,N-1),makelist(Phi(k,hf),k,0,N-1)]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+S1f: filter(S1,h)$ S2f: filter(S2,h)$ S3f: filter(S3,h)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([
+[discrete,makelist(n,n,0,N-1),S1f],
+[discrete,makelist(n,n,0,N-1),S2f],
+[discrete,makelist(n,n,0,N-1),S3f]]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([
+[discrete,makelist(k,k,0,N-1),makelist(D(k,S2f),k,0,N-1)],
+[discrete,makelist(k,k,0,N-1),makelist(D(k,S3f),k,0,N-1)]]);
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

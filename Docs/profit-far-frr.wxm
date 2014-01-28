@@ -1,0 +1,50 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 12.04.0 ] */
+
+/* [wxMaxima: input   start ] */
+kill(all);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+d(far,frr):=(1-frr)*(1-far*(Tl*nl+Tt*nt))*(np*P/(k*wp))+far*(nl*dl+nt*dt);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+P: 285$
+k: 2$
+wp: 94$
+np: 0.03791293$
+nl: 0.64251857$
+nt: 0.31956850$
+Tl: 2194.5$
+Tt: 5*24*60$
+dl: -71$
+dt: 90$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+d(far,frr), number;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+d(0,0)*1440;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+rhs(solve(1-far*(Tl*nl+Tt*nt)=0,far)[1]), numer;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+rhs(solve(d(far,frr)=0, frr)[1]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d(rhs(solve(d(1/far,frr)=0, frr)[1]),[far,4000,10000]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+plot3d(d(1/far,frr)*1440,[far,4*10^3,10^4],[frr,0,1])$
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

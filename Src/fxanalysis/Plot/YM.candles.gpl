@@ -1,0 +1,22 @@
+set terminal windows
+set boxwidth 0.5 relative
+set style fill empty
+set ylabel pair
+set multiplot layout 2,2
+set xlabel "years"
+set xrange [0:12]
+plot pair.'.Y.candles.dat' using ($1+1):3:5:4:6:xticlabels(2) with candlesticks whiskerbars
+set xlabel " "
+set xrange [0:22]
+set xtics rotate
+plot pair.'.M6.candles.dat' using ($1+1):3:5:4:6:xticlabels(2) with candlesticks whiskerbars
+set xlabel " "
+set xrange [0:43]
+set xtics rotate
+plot pair.'.M3.candles.dat' using ($1+1):3:5:4:6:xticlabels(2) with candlesticks whiskerbars
+set xlabel " "
+set xrange [0:127]
+set xtics rotate 1,3
+plot pair.'.M1.candles.dat' using ($1+1):3:5:4:6:xtic((($1/3)-int($1/3))==0 ? stringcolumn(2) :"") with candlesticks whiskerbars
+unset multiplot
+pause mouse close

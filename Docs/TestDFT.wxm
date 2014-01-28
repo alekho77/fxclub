@@ -1,0 +1,73 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 12.04.0 ] */
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+f(x):=cos(x);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+p: %pi/2;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+h[i,j]:=exp(-2*%pi*%i*(i-1)*(j-1)/N);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+H[i,j]:=exp(+2*%pi*%i*(i-1)*(j-1)/N);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(N, integer)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+N: 4$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+genmatrix(lambda([i,j], (i-1)*(j-1)),10,10);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+c: ratsimp(genmatrix(h,N,N));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+C: ratsimp(genmatrix(H,N,N));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+xx: makelist (f(2*p/N*i-p), i, 0, N-1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+xx, numer;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+x: transpose(matrix(xx));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+X: rectform((c.x)/N);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+coef: makelist([realpart(X[i,1]), imagpart(X[i,1])], i, N);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+coef, numer;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+x-ratsimp(C.X);
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

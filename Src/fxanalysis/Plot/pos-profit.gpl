@@ -1,0 +1,7 @@
+set terminal windows enhanced
+set xlabel "time"
+# set ylabel "stoploss"
+# set yrange [-100:]
+# set pm3d depthorder
+plot pair.'.pos.dat' using ($1/1440):3 with lines
+pause mouse close

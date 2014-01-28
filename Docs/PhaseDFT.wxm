@@ -1,0 +1,165 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 12.04.0 ] */
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+load("simplify_sum")$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(k,integer)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(n,integer)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(N,integer)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(f,integer)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(phi,real)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(A,real)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+s[n]:=A*cos(2*%pi*f*n/N+phi);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+c[k]:=1/N*sum(s[n]*exp(-%i*2*%pi*k*n/N),n,0,N-1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+c[f];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+rectform(c[f]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Re: simplify_sum(trigrat(realpart(c[f]))); Im: simplify_sum(trigrat(imagpart(c[f])));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+trigsimp(sqrt(Re^2+Im^2));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+trigsimp(trigexpand(Im/Re));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+N: 10$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+f: 2$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+phi: 0$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+A: 1$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+signal: s[n];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+X: makelist(trigrat(rectform(c[k])), k, 0, N-1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Xre: realpart(X);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Xim: trigrat(imagpart(X));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Ampl: 2*cabs(X);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Phase: carg(X);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[discrete,makelist(i-1,i,N),makelist(s[k],k,0,N-1)],signal],[n,0,N]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+C: makelist(float(rectform(c[k])), k, 0, N-1), numer;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Amplitudes: makelist(2 * cabs(C[i]), i, N);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([discrete,makelist(i-1,i,N),Amplitudes],[logy]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Phases: makelist(float(carg(C[i])*180/%pi), i, N);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([discrete,makelist(i-1,i,N),Phases]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+h[i,j]:=exp(-2*%pi*%i*(i-1)*(j-1)/N);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+c: ratsimp(genmatrix(h,N,N))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+xx: makelist (float(s[i]), i, 0, N-1), numer$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+x: transpose(matrix(xx))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+X: rectform((c.x)/N), numer;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Amplitudes: makelist(2 * cabs(X[i,1]), i, N);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([discrete,makelist(i-1,i,N),Amplitudes],[logy]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Phases: makelist(float(carg(X[i,1])*180/%pi), i, N);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([discrete,makelist(i-1,i,N),Phases]);
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

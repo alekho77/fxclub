@@ -1,0 +1,33 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 12.04.0 ] */
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+f(x):=cos(x);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+p: %pi/2;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+load("fourie")$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+fourexpand (foursimp (fourier (f(x), x, p)), x, p, 3);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ff(x):=%o9;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([f(x),ff(x)],[x,-p,p])$
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

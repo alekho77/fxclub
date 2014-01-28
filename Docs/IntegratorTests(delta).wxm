@@ -1,0 +1,274 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 12.04.0 ] */
+
+/* [wxMaxima: title   start ]
+Тестовые функции для интеграторов ПФ.
+
+   [wxMaxima: title   end   ] */
+
+/* [wxMaxima: section start ]
+f(x)=x
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: subsect start ]
+Определение функции и периода.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+f(x):=delta(x)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+a: -1$ b: 1$ T: b-a$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+K: [1,2,3,4,5,10,100,500,999]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: subsect start ]
+Константа ряда Фурье.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: input   start ] */
+a0: 2/T*1;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ratsimp(a0);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: subsect start ]
+Подинтегральные функции коэффициентов ряда Фурье.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(k, integer)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+c(x,k):=f(x)*cos(2*%pi*k/T*x);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+s(x,k):=f(x)*sin(2*%pi*k/T*x);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: subsect start ]
+Коэффициенты ряда Фурье.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: input   start ] */
+ak(k):=2/T*1;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ratsimp(ak(k));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+[a0, map(ak, K)], numer;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+bk(k):=2/T*0;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ratsimp(bk(k));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+[0, map(bk, K)], numer;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: section start ]
+Оценка погрешности интегрирования
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: subsect start ]
+Общие данные.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: input   start ] */
+load("mnewton")$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+N: 1000$ h: (b-a)/N$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Eo: 0.5*2^(1-53)*N;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(n, integer)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+dc[n]:= lambda([x,k], (-1)^n)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ds[n]:= lambda([x,k], 0)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: subsect start ]
+Формула правых/левых прямоугольников на равномерной сетке.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: input   start ] */
+Erl(df):=abs(df)/2*(b-a)*h;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ratsimp([diff(f(x),x), dc[1]]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+trigreduce(solve(diff(dc[1](x,k),x)=0,x));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+rdc1(x,k):=x*%pi*k/2 + tan(%pi*k*x);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+x0c1(k):=((2*k-1)/(2*k)+1/(8*k^2))*b;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+xmc1(k):=rhs(mnewton(rdc1(x,k),x,x0c1(k))[1][1]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+xmc1_list: outermap(xmc1,K);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+block([k], k: 3, wxplot2d([dc[1](x,k), -tan(%pi*k*x), %pi*k*x/2],[x,a,b],[y,-%pi*k,%pi*k]));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Erlc: outermap(Erl, [diff(f(x),x), map(dc[1], xmc1_list, K)]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ratsimp(ds[1]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+trigreduce(solve(diff(ds[1](x,k),x)=0,x));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+rds1(x,k):=%pi*k*x/2 - cot(%pi*k*x);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+block([k], k: 5, wxplot2d([ds[1](x,k), cot(%pi*k*x), %pi*k*x/2],[x,a,b],[y,-%pi*k,%pi*k]));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+dsm1(k):=ds[1](b,k);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+dsm1_list: outermap(dsm1,K);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Erls: outermap(Erl, [0, dsm1_list]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+2/T*Erlc+Eo, numer;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+2/T*Erls+Eo, numer;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: subsect start ]
+Формула трапеций
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: input   start ] */
+Et(d):=abs(d)/12*(b-a)*h^2;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ratsimp([diff(f(x),x,2), dc[2]]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+trigreduce(solve(diff(dc[2](x,k),x)=0,x));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+rdc2(x,k):=%pi*k*x/3 - cot(%pi*k*x);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+block([k], k: 3, wxplot2d([dc[2](x,k), cot(%pi*k*x), %pi*k*x/3],[x,a,b],[y,-(%pi*k)^2,(%pi*k)^2]));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+dcm2(k):=dc[2](b,k);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+dcm2_list: outermap(dcm2,K);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Etc: outermap(Et, [diff(f(x),x,2), dcm2_list]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ratsimp(ds[2]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+trigreduce(solve(diff(ds[2](x,k),x)=0,x));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+rds2(x,k):=%pi*k*x/3 + tan(%pi*k*x);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+x0s2(k):=((2*k)/(2*k+1)+1/(8*k^2))*b;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+xms2(k):=rhs(mnewton(rds2(x,k),x,x0s2(k))[1][1]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+xms2_list: outermap(xms2,K);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+block([k], k: 10, wxplot2d([ds[2](x,k), -tan(%pi*k*x), %pi*k*x/3],[x,a,b],[y,-(%pi*k)^2,(%pi*k)^2]));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Ets: outermap(Et, [0, map(ds[2], xms2_list, K)]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+2/T*Etc+Eo, numer;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+2/T*Ets+Eo, numer;
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

@@ -1,0 +1,101 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 12.04.0 ] */
+
+/* [wxMaxima: input   start ] */
+m: matrix([100, 99], [99, 98]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+m . (m^^-1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+mat_norm(m,1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+mi: invert(m);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+mat_norm(mi,1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+m . %;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+A: matrix([1,x1],[1,x2]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+a: matrix([a0], [a1]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+A.a;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+B: matrix([y1], [y2]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+A.a=B;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+linsolve([a1*x1+a0=y1, a1*x2+a0=y2], [a0, a1]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+transpose (A);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+(transpose(A) . A) . a;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+transpose(A) . B;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+linsolve([a1*(x2+x1)+2*a0=y2+y1, a1*(x2^2+x1^2)+a0*(x2+x1)=x2*y2+x1*y1], [a0, a1]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+AA: matrix([1,x1],[1,x2],[1,x3],[1,x4]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+BB: matrix([y1], [y2], [y3], [y4]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+AAA: transpose(AA) . AA;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+mat_norm(AAA, 1)*mat_norm(AAA^^-1,1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ratsimp(%o26);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+(transpose(AA) . AA) . a;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+transpose(AA) . BB;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ratsimp(linsolve([a1*(x4+x3+x2+x1)+4*a0=y4+y3+y2+y1, a1*(x4^2+x3^2+x2^2+x1^2)+a0*(x4+x3+x2+x1)=x4*y4+x3*y3+x2*y2+x1*y1], [a0, a1]));
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

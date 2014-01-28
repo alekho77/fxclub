@@ -1,0 +1,127 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 12.04.0 ] */
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+assume(t>=0);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+x: k*t+b-c/t;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+solve(x=xx, t);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+assume (k>0,c>0);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+p: exp(C0-(x-a)^2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+expand(C0-(x-a)^2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+solve(C0-(x-a)^2=A*t^2+B*t+C+D*t^-1+E*t^-2,[C0,k,b,c,a]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+%r20;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+diff(x, t);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+integrate(p*diff(x, t),t,0,+inf);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+integrate(x*p*diff(x, t),t,0,+inf);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+solve(Co-z^2=A*t^2+B*t+C+D*t^-1+E*t^-2,[t]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ev(solve(integrate(p,t,0,+inf)=1,C), solveradcan);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+b: rhs(solve(x(a)=a,b)[1]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+a - это точка, в которой x=a или мат.ожиданию случайной величины x;
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+a:1$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+b: b,numer;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([x(t),t+b],[t,0,5],[y,-10,10], [ylabel,x]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+assume(sigma > 0);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+phi(z,sigma):=1/(sqrt(2*%pi)*sigma)*exp(-(1/2)*((z-a)/sigma)^2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([phi(z,1),phi(z,2)],[z,-5,5],[ylabel,phi]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([phi(x(t),1),phi(x(t),2)],[t,0,5],[ylabel,phi]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+integrate(phi(z,sigma),z,-inf,+inf);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+inttrap(f,N,A,B):=block([h,i,s],h:(B-A)/N,
+
+
+s:(float(subst(A,t,f))+float(subst(B,t,f)))/2,
+
+
+for i:1 thru N-1 do (s:s+float(subst(A+i*h,t,f))), s:s*h);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+a; b;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+phi(x(146),1), numer;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+inttrap(phi(x(t),1),1000000,0.0001,146);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+romberg(phi(x(t),1),t,0.0001,80);
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

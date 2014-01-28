@@ -1,0 +1,125 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 12.04.0 ] */
+
+/* [wxMaxima: input   start ] */
+kill(all);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+X: transpose(matrix(makelist(concat(x,i), i, 10)));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Y: transpose(matrix(makelist(concat(y,i), i, 10)));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+h[i,j]:=X[i,1]^(j-1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+A: genmatrix(h,10,4);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+transpose(A) . A;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+transpose(A) . Y;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+xx: makelist(i,i,10);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+rr: [0.382490273, 0.829568921, 0.122920639, -0.242043006, -0.919238821, -0.741422037, 0.745003113, -0.828325135, -0.179299096, 0.840453459];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+apply("+",rr)/length(rr);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+expand((x-1)*(x-4)*(x-7)*(x-10)/100);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+f(x):=x^4/100-(11*x^3)/50+(159*x^2)/100-(209*x)/50+14/5;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ff: maplist("+",map(f,xx),rr);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([f(x), [discrete,xx,ff]], [x, 1, 10]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+XX: transpose(matrix(xx));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+YY: transpose(matrix(ff));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+hh[i,j]:=XX[i,1]^(j-1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+AA[n]:=genmatrix(hh,length(xx),n);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+AX[n]:=transpose(AA[n]) . AA[n];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+AX[2];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+apply("+",xx);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+BX[n]:=transpose(AA[n]) . YY;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+BX[2];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+apply("+",ff);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+AI[n]:=invert(AX[n]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+AI[2] . AX[2];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+CX[n]:=AI[n] . BX[n];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+BX[1] / AX[1];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+CX[2]; CX[3]; CX[4]; CX[5];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([f(x), [discrete,xx,ff], 3.159843673583218-3.752753741242501*x+1.332429196075541*x^2-0.18557742355953*x^3+0.0087348357131407*x^4], [x, 1, 10]);
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

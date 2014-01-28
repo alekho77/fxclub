@@ -1,0 +1,49 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 12.04.0 ] */
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+f(x):=x;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+p: 1;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(N, integer)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+N: 100000$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+x[i]:= f(2*p/N*i-p);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+F(k):= 1/N*sum(x[n]*exp(-2*%pi*%i*k*n/N), n, 0, N-1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+kk: [0, 1, 2, floor(N/2)-1, floor(N/2), floor(N/2)+1, N-2, N-1];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ccoef: maplist(F, kk), numer$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+coef: makelist([realpart(ccoef)[i], imagpart(ccoef)[i]], i, length(ccoef))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+coef, numer;
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

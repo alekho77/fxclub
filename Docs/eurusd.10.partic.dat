@@ -1,0 +1,18 @@
+# Range of EURUSD from 03.01.2001 0:01:00 to 22.06.2011 22:03:00
+# Maximum probably profit and loss with minimum profit delta 10 pips
+# Maximum timeout is one month
+# AMP/AML   - average maximum profit and loss in pips per day
+# AWPP/AWLP - average waiting profit and loss period in minutes
+# PD/LD     - profit and loss density [0..1]
+# APSL      - average StopLoss on way to maximum profit in pips
+#                              BUY                          |                         SELL
+# WP(1) AMP(2) AWPP(3)  PD(4) APSL(5) AML(6) AWLP(7)  LD(8)   AMP(9) AWPP(10)  PD(11) APSL(12) AML(13) AWLP(14)  LD(15)
+      1    461    2040 0.9729      37  -2756     163 0.9976      466     1867  0.9545       39   -2762      165  0.9988
+      5    446    2041 0.9729      37  -1038     328 0.9949      450     1868  0.9545       38   -1041      340  0.9969
+     15    377    2061 0.9725      37   -583     543 0.9916      380     1888  0.9542       38    -585      569  0.9947
+     30    313    2109 0.9718      37   -412     756 0.9885      316     1938  0.9533       39    -413      797  0.9927
+     60    249    2224 0.9702      39   -295    1065 0.9841      251     2053  0.9512       41    -296     1131  0.9897
+    240    144    2910 0.9624      46   -153    2164 0.9678      144     2731  0.9395       49    -155     2315  0.9789
+    480    107    3707 0.9536      53   -111    3098 0.9529      106     3518  0.9268       56    -113     3274  0.9693
+   1440     66    6086 0.9288      67    -66    5571 0.9116       65     5813  0.8871       72     -67     5846  0.9433
+   7200     31   14062 0.8501      77    -31   13752 0.7855       31    13821  0.7653       92     -31    13979  0.8673

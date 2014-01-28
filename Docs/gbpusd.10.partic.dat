@@ -1,0 +1,18 @@
+# Range of GBPUSD from 03.01.2001 0:01:00 to 23.06.2011 18:57:00
+# Maximum probably profit and loss with minimum profit delta 10 pips
+# Maximum timeout is one month
+# AMP/AML   - average maximum profit and loss in pips per day
+# AWPP/AWLP - average waiting profit and loss period in minutes
+# PD/LD     - profit and loss density [0..1]
+# APSL      - average StopLoss on way to maximum profit in pips
+#                              BUY                          |                         SELL
+# WP(1) AMP(2) AWPP(3)  PD(4) APSL(5) AML(6) AWLP(7)  LD(8)   AMP(9) AWPP(10)  PD(11) APSL(12) AML(13) AWLP(14)  LD(15)
+      1    664    1764 0.9746      42  -3395     162 0.9979      674     1685  0.9662       44   -3397      179  0.9985
+      5    632    1767 0.9746      42  -1311     343 0.9956      640     1687  0.9662       43   -1311      358  0.9966
+     15    511    1797 0.9740      42   -745     573 0.9928      519     1720  0.9657       44    -742      588  0.9943
+     30    413    1864 0.9730      43   -528     800 0.9902      420     1795  0.9645       45    -525      817  0.9920
+     60    320    2007 0.9710      46   -379    1126 0.9865      327     1952  0.9622       48    -374     1151  0.9888
+    240    181    2823 0.9607      57   -197    2299 0.9729      185     2776  0.9507       60    -193     2344  0.9766
+    480    133    3709 0.9503      67   -142    3272 0.9601      137     3629  0.9391       71    -139     3353  0.9659
+   1440     81    6236 0.9228      86    -85    5853 0.9234       83     6070  0.9055       92     -82     5985  0.9368
+   7200     38   14446 0.8372     102    -40   13875 0.8216       40    13957  0.8046      117     -38    14351  0.8540

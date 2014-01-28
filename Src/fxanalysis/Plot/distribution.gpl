@@ -1,0 +1,4 @@
+set terminal windows enhanced
+set xlabel "time"
+plot pair.'.dat' using 1:2 with impulses lw 3
+pause mouse close

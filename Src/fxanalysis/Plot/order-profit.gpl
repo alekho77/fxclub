@@ -1,0 +1,7 @@
+set terminal windows enhanced
+set xlabel "takeprofit"
+set ylabel "stoploss"
+# set zrange [-120:240]
+set pm3d depthorder
+splot pair.'.order.dat' using 1:2:(-$13) with pm3d, pair.'.order.dat' using 1:2:3 with pm3d
+pause mouse close
